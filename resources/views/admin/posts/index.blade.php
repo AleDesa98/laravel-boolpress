@@ -2,7 +2,16 @@
 
 @section('content')
     <div class="container">
-        <h1 class="my-4">Elenco Post</h1>
+
+        
+        @if (session('deleted'))
+            <div class="alert alert-success">
+                <strong>{{ session('deleted') }}</strong> eliminato correttamente!!
+            </div>
+        @endif
+
+        <h1 class="mt-4">Elenco Post</h1>
+        <a class="btn btn-primary mb-4" href="{{ route('admin.posts.create') }}">Nuovo articolo</a>
         <table class="table table-striped">
             <thead>
                 <tr>
@@ -18,9 +27,19 @@
                         <td>{{ $item->id }}</td>
                         <td>{{ $item->title }}</td>
                         <td>{{ $item->slug }}</td>
-                        <td>SHOW</td>
-                        <td>EDIT</td>
-                        <td>DELETE</td>
+                        <td>
+                            <a class="btn btn-success" href="{{ route('admin.posts.show', $item->id) }}">SHOW</a>
+                        </td>
+                        <td>
+                            <a class="btn btn-primary" href="{{ route('admin.posts.edit', $item->id) }}">EDIT</a>
+                        </td>
+                        <td>
+                            <form action="{{ route('admin.posts.destroy', $item->id) }}" method="POST" onsubmit="return confirm('Sei sicuro di voler eliminare l\'articolo?')">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-danger">DELETE</button>
+                            </form>
+                        </td>
                     </tr>
                 @endforeach
             </tbody>
