@@ -24,6 +24,18 @@
             <a class="btn btn-warning" href="{{ route('admin.posts.edit' , $post->id) }}">Modifica</a>
             <a class="btn btn-secondary ml-2" href="{{ route('admin.posts.index') }}">Elenco post</a>
         </div>
-        <div class="mt-4">{{ $post->content }}</div>
+        <div class="row mt-4">
+            <div class="col-md-6">
+                @if ($post->cover)
+                    <img class="img-fluid" src="{{ asset('storage/' . $post->cover) }}" alt="{{ $post->title }}">
+                @else
+                    <img class="img-fluid" src="{{ asset('images/placeholder.png') }}" alt="{{ $post->title }}">
+                @endif
+                
+            </div>
+            <div class="col-md-6">
+                {{ $post->content }}
+            </div>
+        </div>
     </div>
 @endsection

@@ -11,6 +11,14 @@ class PostController extends Controller
     public function index() {
         $posts = Post::paginate(6);
 
+        $posts->each(function ($post) {
+            if($post->cover) {
+                $post->cover = url('storage/' . $post->cover);
+            } else {
+                $post->cover = url('images/placeholder.png');
+            }
+        });
+
         return response()->json($posts);
     }
     public function show($slug) {
@@ -18,6 +26,14 @@ class PostController extends Controller
         $post = Post::where('slug', $slug)
             ->with(['category', 'tags'])
             ->first();
+
+        if(!empty($post)) {
+            if($post->cover) {
+                $post->cover = url('storage/' . $post->cover);
+            } else {
+                $post->cover = url('images/placeholder.png');
+            }
+        }
 
         return response()->json($post);
     }

@@ -3,7 +3,7 @@
 @section('content')
     <div class="container">
         <h1 class="my-4">Scrivi un nuovo articolo</h1>
-        <form action="{{ route('admin.posts.store') }}" method="POST">
+        <form action="{{ route('admin.posts.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('POST')
             <div class="form-group">
@@ -20,6 +20,15 @@
                     <small class="text-danger">{{ $message }}</small>
                 @enderror
             </div>
+
+            <div class="form-group">
+                <label for="cover">Copertina post</label>
+                <input type="file" name="cover" class="form-control-file" id="cover">
+                @error('cover')
+                    <small class="text-danger">{{ $message }}</small>
+                @enderror
+            </div>
+
             <div class="form-froup">
                 <label for="category_id">Categoria</label>
                 <select class="form-control mb-4 @error('category_id') is-invalid @enderror" name="category_id" id="category_id">
